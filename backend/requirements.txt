@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+langchain
+sentence-transformers
+qdrant-client
+python-dotenv
+pypdf
+pdfplumber
+google-generativeai
+tqdm
+langchain-text-splitters
+tf-keras
+PyJWT
+passlib
+python-multipart
+cryptography
+argon2-cffi
