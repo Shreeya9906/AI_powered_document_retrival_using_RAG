@@ -7,19 +7,19 @@ genai.configure(api_key=GEMINI_API_KEY)
 # Try multiple models in order of preference
 model = None
 # Using more reliable model options for Gemini API
-available_models = ["gemini-pro"]
+available_models = ["gemini-1.5-flash"]
 
 for model_name in available_models:
     try:
         model = genai.GenerativeModel(model_name)
-        print(f"✓ Using model: {model_name}")
+        print(f"Using model: {model_name}")
         break
     except Exception as e:
         print(f"Model {model_name} not available: {e}")
         continue
 
 if model is None:
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
 def generate_answer(query, contexts):
     """
@@ -60,7 +60,7 @@ Comprehensive answer:"""
         )
         
         elapsed = time.time() - start_time
-        print(f"✅ LLM response ready in {elapsed:.1f}s")
+        print(f"LLM response ready in {elapsed:.1f}s")
         
         answer = response.text.strip()
         
@@ -76,7 +76,7 @@ Comprehensive answer:"""
         
     except Exception as e:
         elapsed = time.time() - start_time
-        print(f"⚠️ LLM error after {elapsed:.1f}s: {str(e)[:150]}")
+        print(f"LLM error after {elapsed:.1f}s: {str(e)[:150]}")
         if contexts and len(contexts) > 0:
             # Combine useful excerpts
             combined = " ".join(contexts)

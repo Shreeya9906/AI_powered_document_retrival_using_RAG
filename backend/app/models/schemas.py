@@ -4,11 +4,15 @@ from typing import Optional, List
 
 class ChatRequest(BaseModel):
     query: str
+    filters: Optional[dict] = {}
+    top_k: Optional[int] = 5
     
     class Config:
         json_schema_extra = {
             "example": {
-                "query": "What is dearness allowance?"
+                "query": "What is dearness allowance?",
+                "filters": {},
+                "top_k": 5
             }
         }
 
@@ -37,7 +41,7 @@ class ChatResponse(BaseModel):
 
 # User Schemas
 class UserBase(BaseModel):
-    email: str
+    phone_number: str
     name: str
     role: str = "user"
 
@@ -45,7 +49,7 @@ class UserCreate(UserBase):
     password: str
 
 class UserLogin(BaseModel):
-    email: str
+    phone_number: str
     password: str
 
 class UserResponse(UserBase):
@@ -55,8 +59,7 @@ class UserResponse(UserBase):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
-    expires_in: int
     user: UserResponse
 
 class TokenData(BaseModel):
-    email: Optional[str] = None
+    phone_number: Optional[str] = None

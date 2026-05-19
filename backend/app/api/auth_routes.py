@@ -1,80 +1,58 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from app.models.schemas import TokenResponse, UserLogin, TokenData
-from app.services.auth_service import authenticate_user, generate_token_response, get_user_by_email
-from app.utils.security import decode_token
+from sqlalchemy.orm import Session
+from app.models.user_model import get_db, User
+from app.models.schemas import UserCreate, UserLogin, TokenResponse, UserResponse
+from app.utils.auth import get_password_hash, verify_password, create_access_token
+from datetime import timedelta
 
-router = APIRouter(prefix="/api/auth", tags=["authentication"])
+router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
-# OAuth2 scheme
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
-
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
-    """
-    Get current user from JWT token.
+@router.post("/signup", response_model=TokenResponse)
+def signup(user_in: UserCreate, db: Session = Depends(get_db)):
+    # Check if user already exists
+    db_user = db.query(User).filter(User.phone_number == user_in.phone_number).first()
+    if db_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Phone number already registered"
+        )
     
-    This function is used as a dependency in protected routes.
-    """
-    credential_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
+    # Create new user
+    new_user = User(
+        name=user_in.name,
+        phone_number=user_in.phone_number,
+        hashed_password=get_password_hash(user_in.password),
+        role=user_in.role
     )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
     
-    payload = decode_token(token)
-    if payload is None:
-        raise credential_exception
+    # Generate token
+    access_token = create_access_token(data={"sub": new_user.phone_number})
     
-    email: str = payload.get("email")
-    if email is None:
-        raise credential_exception
-    
-    token_data = TokenData(email=email)
-    
-    user = get_user_by_email(token_data.email)
-    if user is None:
-        raise credential_exception
-    
-    return user
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": new_user
+    }
 
-@router.post("/login", response_model=TokenResponse, summary="User Login")
-async def login(user_credentials: UserLogin) -> TokenResponse:
-    """
-    Login endpoint that returns JWT access token.
-    
-    **Test with:**
-    - Email: user@example.com, Password: password123
-    - Email: admin@example.com, Password: admin123
-    """
-    user = authenticate_user(user_credentials.email, user_credentials.password)
-    
-    if not user:
+@router.post("/login", response_model=TokenResponse)
+def login(user_in: UserLogin, db: Session = Depends(get_db)):
+    # Authenticate user
+    user = db.query(User).filter(User.phone_number == user_in.phone_number).first()
+    if not user or not verify_password(user_in.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
+            detail="Incorrect phone number or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    return generate_token_response(user)
-
-@router.get("/me", summary="Get Current User")
-async def get_me(current_user: dict = Depends(get_current_user)):
-    """
-    Get current authenticated user information.
-    Requires valid JWT token in Authorization header.
-    """
+    # Generate token
+    access_token = create_access_token(data={"sub": user.phone_number})
+    
     return {
-        "id": current_user["id"],
-        "email": current_user["email"],
-        "name": current_user["name"],
-        "role": current_user["role"],
-        "created_at": current_user["created_at"]
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user
     }
-
-@router.post("/refresh", response_model=TokenResponse, summary="Refresh Token")
-async def refresh_token(current_user: dict = Depends(get_current_user)) -> TokenResponse:
-    """
-    Refresh authentication token.
-    Requires valid JWT token in Authorization header.
-    """
-    return generate_token_response(current_user)

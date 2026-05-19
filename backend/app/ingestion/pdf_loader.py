@@ -89,10 +89,10 @@ def load_pdf_with_pdfplumber(file_path):
                     if page_text:
                         text += page_text + "\n"
                 except Exception as page_error:
-                    print(f"  ⚠️ Skipping problematic page {page_num + 1}: {str(page_error)[:50]}")
+                    print(f"  [WARNING] Skipping problematic page {page_num + 1}: {str(page_error)[:50]}")
                     continue
     except Exception as e:
-        print(f"⚠️ pdfplumber extraction failed: {str(e)[:100]}")
+        print(f"[WARNING] pdfplumber extraction failed: {str(e)[:100]}")
         return None
     
     return text if text.strip() else None
@@ -111,7 +111,7 @@ def load_pdf_with_pypdf(file_path):
                 text += page_text + "\n"
         return text if text else None
     except Exception as e:
-        print(f"⚠️ PyPDF extraction failed: {e}")
+        print(f"[WARNING] PyPDF extraction failed: {e}")
         return None
 
 
@@ -122,13 +122,13 @@ def load_pdf(file_path):
     """
     file_path = str(file_path)
     
-    print(f"📖 Loading: {Path(file_path).name}")
+    print(f"[LOADING] Loading: {Path(file_path).name}")
     
     # Use pypdf for extraction (fast and reliable)
     text = load_pdf_with_pypdf(file_path)
     
     if not text:
-        print(f"⚠️ Could not extract text from {file_path}")
+        print(f"[WARNING] Could not extract text from {file_path}")
         return ""
     
     # Clean the extracted text
@@ -136,10 +136,10 @@ def load_pdf(file_path):
     
     # Validate quality
     if is_quality_text(text):
-        print(f"✅ Successfully extracted and cleaned")
+        print(f"[SUCCESS] Successfully extracted and cleaned")
         return text
     else:
-        print(f"⚠️ Extracted text quality is low - may contain errors")
+        print(f"[WARNING] Extracted text quality is low - may contain errors")
         return text
 
 

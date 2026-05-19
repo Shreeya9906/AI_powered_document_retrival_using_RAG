@@ -65,9 +65,9 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 shadow-sm">
+      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-6 shadow-sm">
         <h2 className="text-2xl font-bold">Chat</h2>
-        <p className="text-blue-100 text-sm mt-1">Ask questions about your documents</p>
+        <p className="text-purple-100 text-sm mt-1">Ask questions about your documents</p>
       </div>
 
       {/* Messages Container */}
@@ -89,9 +89,9 @@ export default function ChatPage() {
           <div className="flex justify-center">
             <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4">
               <div className="flex gap-2">
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
               </div>
             </div>
           </div>
@@ -124,13 +124,13 @@ export default function ChatPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && !loading && handleSend()}
               placeholder="Ask a question about the documents..."
-              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
+              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:text-white"
               disabled={loading}
             />
             <button
               onClick={handleSend}
               disabled={loading || !input.trim()}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors font-medium"
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 transition-colors font-medium"
             >
               {loading ? '...' : 'Send'}
             </button>

@@ -10,8 +10,10 @@ google-generativeai
 tqdm
 langchain-text-splitters
 tf-keras
-PyJWT
+python-jose[cryptography]
 passlib
 python-multipart
 cryptography
 argon2-cffi
+sqlalchemy
+bcrypt

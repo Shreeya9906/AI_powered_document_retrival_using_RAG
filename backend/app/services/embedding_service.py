@@ -15,6 +15,6 @@ def generate_embedding(text):
         )
         return embedding.tolist()
     except Exception as e:
-        print(f"⚠️ Embedding generation failed: {str(e)[:100]}")
+        print(f"Embedding generation failed: {str(e)[:100]}")
         # Return zero vector as fallback (should rarely happen)
         return [0.0] * 384

@@ -34,7 +34,7 @@ def ingest():
                 text = load_pdf(file_path)
 
                 if not text or text.strip() == "":
-                    print(f"  ⚠️ Skipped: No text extracted")
+                    print(f"  [SKIPPED] No text extracted")
                     skipped_count += 1
                     continue
 
@@ -60,18 +60,18 @@ def ingest():
                             payload=payload
                         )
                     except Exception as chunk_error:
-                        print(f"  ⚠️ Error embedding chunk: {str(chunk_error)[:50]}... Skipping chunk.")
+                        print(f"  [ERROR] embedding chunk: {str(chunk_error)[:50]}... Skipping chunk.")
                         continue
                 
                 processed_count += 1
-                print(f"  ✅ Processed successfully")
+                print(f"  [SUCCESS] Processed successfully")
             
             except Exception as file_error:
-                print(f"  ⚠️ Error processing file: {str(file_error)[:100]}")
+                print(f"  [ERROR] processing file: {str(file_error)[:100]}")
                 skipped_count += 1
                 continue
     
-    print(f"\n✅ INGESTION COMPLETE!")
+    print(f"\n[INGESTION COMPLETE!]")
     print(f"   Processed: {processed_count} documents")
     print(f"   Skipped: {skipped_count} documents")
 

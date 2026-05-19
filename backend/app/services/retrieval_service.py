@@ -4,8 +4,8 @@ from typing import Dict, List, Tuple
 import time
 
 # Relevance threshold - minimum similarity score to consider data relevant
-# Using 0.62 for strict filtering to avoid false positives
-RELEVANCE_THRESHOLD = 0.62
+# Using 0.55 for balanced filtering
+RELEVANCE_THRESHOLD = 0.55
 
 def retrieve_documents(query) -> Tuple[List[str], List[Dict], bool]:
     """
@@ -19,13 +19,13 @@ def retrieve_documents(query) -> Tuple[List[str], List[Dict], bool]:
     embed_start = time.time()
     vector = generate_embedding(query)
     embed_time = time.time() - embed_start
-    print(f"   🔤 Embedding: {embed_time:.2f}s")
+    print(f"   Embedding: {embed_time:.2f}s")
     
     # Search vector database
     search_start = time.time()
     results = search_vectors(vector)
     search_time = time.time() - search_start
-    print(f"   🔎 Vector Search: {search_time:.2f}s")
+    print(f"   Vector Search: {search_time:.2f}s")
     
     contexts = []
     sources = []
