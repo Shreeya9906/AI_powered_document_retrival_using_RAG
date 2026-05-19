@@ -17,89 +17,118 @@ This system enables students, faculty, and administrators to query a comprehensi
 - **Source Attribution** - Every answer includes references to source documents
 - **Real-time Updates** - Live government announcements and updates
 
-## 🏗️ Architecture
+---
 
-### Backend Stack
-- **FastAPI** - High-performance Python web framework
-- **Vector Database** - Qdrant for semantic search
-- **LLM Integration** - Large Language Models for response generation
-- **Authentication** - JWT-based security
+## 🏗️ Tech Stack
 
-### Frontend Stack
-- **React 18** - Modern UI framework
-- **Vite** - Lightning-fast build tool
-- **Tailwind CSS** - Utility-first CSS framework
-- **Axios** - HTTP client for API communication
+### Backend
+| Tool | Purpose |
+|------|---------|
+| FastAPI | High-performance REST API |
+| Qdrant | Vector database for semantic search |
+| LLM | Response generation |
+| JWT | Authentication & security |
+
+### Frontend
+| Tool | Purpose |
+|------|---------|
+| React 18 | UI framework |
+| Vite | Fast build tool |
+| Tailwind CSS | Styling |
+| Axios | API communication |
+
+---
 
 ## 📁 Project Structure
 
 ```
+retrival/
 ├── backend/
 │   ├── app/
-│   │   ├── api/              # API routes
-│   │   ├── ingestion/        # Document processing & loading
-│   │   ├── models/           # Data schemas & models
-│   │   ├── services/         # Business logic
-│   │   └── utils/            # Utilities & config
-│   ├── dataset/              # Document storage
-│   ├── qdrant_db/            # Vector database
-│   ├── main.py               # Application entry point
-│   └── requirements.txt      # Python dependencies
+│   │   ├── api/           # API routes & endpoints
+│   │   ├── ingestion/     # Document processing & loading
+│   │   ├── models/        # Data schemas & models
+│   │   ├── services/      # Business logic
+│   │   └── utils/         # Utilities & config
+│   ├── dataset/           # Document storage
+│   ├── qdrant_db/         # Vector database files
+│   ├── main.py            # App entry point
+│   └── requirements.txt   # Python dependencies
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── components/       # Reusable React components
-│   │   ├── pages/            # Page components
-│   │   └── main.jsx          # Frontend entry point
-│   ├── index.html            # HTML template
-│   ├── vite.config.js        # Vite configuration
-│   └── tailwind.config.js    # Tailwind CSS configuration
+│   │   ├── components/    # Reusable React components
+│   │   ├── pages/         # Page components
+│   │   └── main.jsx       # Frontend entry point
+│   ├── index.html
+│   ├── vite.config.js
+│   └── tailwind.config.js
+│
+└── docker-compose.yml     # Container orchestration
 ```
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Python 3.8+
 - Node.js 16+
-- npm or yarn
+- Docker (optional but recommended)
 
-### Backend Setup
+---
 
+### Option 1: Run with Docker (Recommended)
+
+```bash
+docker-compose up --build
+```
+
+Both backend and frontend will start automatically.
+
+---
+
+### Option 2: Run Manually
+
+**Backend:**
 ```bash
 cd backend
 pip install -r requirements.txt
 python main.py
 ```
+API runs at → `http://localhost:8000`
+API Docs (Swagger) → `http://localhost:8000/docs`
 
-The backend API will run at `http://localhost:8000`
-
-### Frontend Setup
-
+**Frontend:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+App runs at → `http://localhost:5173`
 
-The frontend will be available at `http://localhost:5173`
+---
 
-## 📚 Document Categories
+## 📚 Supported Document Types
 
-The system manages documents in the following categories:
-- **Circulars** - Official announcements and notices
-- **Guidelines** - Best practices and standards
-- **Regulations** - Rules and compliance requirements
-- **Schemes** - Government and institutional schemes
+| Category | Description |
+|----------|-------------|
+| Circulars | Official announcements and notices |
+| Guidelines | Best practices and standards |
+| Regulations | Rules and compliance requirements |
+| Schemes | Government and institutional schemes |
+
+---
 
 ## 🔐 Security
 
-- JWT-based authentication for secure access
-- Document access control
-- Encrypted sensitive data
+- JWT-based authentication
+- Document-level access control
+- Encrypted sensitive data storage
 
-## 🛠️ Development
+---
 
-### Available Scripts
+## 🛠️ Available Scripts
 
 **Backend:**
 ```bash
@@ -108,35 +137,27 @@ python main.py          # Start development server
 
 **Frontend:**
 ```bash
-npm run dev            # Development server
-npm run build          # Production build
+npm run dev            # Start development server
+npm run build          # Build for production
 npm run preview        # Preview production build
 ```
 
-## 📖 API Documentation
-
-Visit `http://localhost:8000/docs` for interactive API documentation (Swagger UI)
+---
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 👥 Authors
-
-Shreeya Pandey
-
-## 📞 Support
-
-For issues, questions, or suggestions, please open an issue on GitHub.
 
 ---
 
-**Last Updated:** April 2026
+## 📄 License
+
+This project is licensed under the **MIT License** 
+
+---
+
+<p align="center">Built with ❤️ by <a href="https://github.com/Shreeya9906">Shreeya</a></p>
